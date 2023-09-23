@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { CircularProgress, Container } from "../components/Custom.tsx";
 import { Link } from "react-router-dom";
 import { useDebounce } from "use-debounce";
+import { DisneyCharacter } from "../data-type.ts";
 
 const CHARACTERS_PER_PAGE = 20;
 
@@ -69,21 +70,15 @@ export const SearchInput = styled.input`
   border: 1px solid #ccc;
 `;
 
-interface Character {
-  id: string;
-  imageUrl: string;
-  name: string;
-}
-
 function Home() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [displayedCharacters, setDisplayedCharacters] = useState<Character[]>(
-    [],
-  );
+  const [displayedCharacters, setDisplayedCharacters] = useState<
+    DisneyCharacter[]
+  >([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
   const [erroredImages, setErroredImages] = useState<string[]>([]);
-  const { data: characters, isLoading } = useQuery<Character[], Error>(
+  const { data: characters, isLoading } = useQuery<DisneyCharacter[], Error>(
     "characters",
     fetchAllCharacters,
   );

@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { FaHome } from "react-icons/fa";
+import { DisneyCharacter } from "../data-type.ts";
 
 export const ErrorBox = styled.div`
   display: flex;
@@ -137,14 +138,6 @@ export const FilmTitle = styled.span`
   font-size: 16px;
 `;
 
-interface CharacterDetailType {
-  id: number;
-  films: string[];
-  name: string;
-  imageUrl: string;
-  sourceUrl: string;
-}
-
 interface FilmType {
   title: string;
   poster: string;
@@ -159,14 +152,16 @@ function DetailPage() {
     isLoading,
     isError,
     error,
-  } = useQuery<CharacterDetailType>(
+  } = useQuery<DisneyCharacter>(
     ["characterDetail", id],
     () => (id ? fetchCharacterDetail(id) : Promise.reject("ID is missing")),
     {
-      onSuccess: async (data: CharacterDetailType) => {
-        const films: FilmType[] = await Promise.all(
-          data.films.map((film) => searchMovieByTitle(film)),
-        );
+      onSuccess: async (data: DisneyCharacter) => {
+        const films = (
+          await Promise.all(
+            data.films?.map((film) => searchMovieByTitle(film)) || [],
+          )
+        ).filter(Boolean) as FilmType[];
         setRelatedFilms(films);
       },
     },
