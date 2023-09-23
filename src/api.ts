@@ -24,8 +24,10 @@ export const searchMovieByTitle = async (filmTitle: string): Promise<any> => {
     throw new Error("No film title provided");
   }
 
+  const fixed = filmTitle.replace(/\s*\(.*?\)\s*/g, "").trim();
+
   const response = await fetch(
-    `${MOVIE_DB_API_URL}/search/movie?api_key=${MOVIE_DB_API_KEY}&query=${filmTitle}`,
+    `${MOVIE_DB_API_URL}/search/movie?api_key=${MOVIE_DB_API_KEY}&query=${fixed}`,
   );
 
   if (!response.ok) {
