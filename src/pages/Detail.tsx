@@ -53,12 +53,9 @@ export const IconButton = styled.button`
 `;
 
 export const CharacterDetailRow = styled.div`
-  display: flex;
-  justify-content: space-between;
   width: 90%;
   max-width: 790px;
   padding: 0 25px;
-  align-items: center;
   margin: 24px auto 0 auto;
 
   @media (max-width: 600px) {
@@ -143,6 +140,18 @@ interface FilmType {
   poster: string;
 }
 
+function Menu() {
+  return (
+    <MenuBar>
+      <Link to="/">
+        <IconButton>
+          <FaHome size={24} />
+        </IconButton>
+      </Link>
+    </MenuBar>
+  );
+}
+
 function DetailPage() {
   const { id } = useParams();
   const [relatedFilms, setRelatedFilms] = useState<FilmType[]>([]);
@@ -169,7 +178,10 @@ function DetailPage() {
 
   if (isError) {
     return (
-      <ErrorBox>Oops! An error occurred: {(error as Error).message}</ErrorBox>
+      <Container>
+        <Menu />
+        <ErrorBox>Oops! An error occurred: {(error as Error).message}</ErrorBox>
+      </Container>
     );
   }
 
@@ -188,13 +200,7 @@ function DetailPage() {
 
   return (
     <Container>
-      <MenuBar>
-        <Link to="/">
-          <IconButton>
-            <FaHome size={24} />
-          </IconButton>
-        </Link>
-      </MenuBar>
+      <Menu />
 
       {characterDetail && (
         <>
