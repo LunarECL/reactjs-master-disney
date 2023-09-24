@@ -53,8 +53,11 @@ export const IconButton = styled.button`
 `;
 
 export const CharacterDetailRow = styled.div`
+  display: flex;
+  justify-content: space-between;
   width: 90%;
   max-width: 790px;
+  align-items: center;
   padding: 0 25px;
   margin: 24px auto 0 auto;
 
